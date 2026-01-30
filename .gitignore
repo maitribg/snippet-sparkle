@@ -1,0 +1,28 @@
+# Firebase config (if you want to keep it private)
+# Uncomment the line below if you don't want to commit your Firebase keys
+# firebase-config.js
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Backup files
+*.backup
+*.bak
+
+# Node modules (if you add any build tools later)
+node_modules/
+
+# Distribution files
+dist/
+build/

@@ -32,34 +32,55 @@ Hi [NAME], I saw you're a [ROLE] at [COMPANY]. I'd love to connect and discuss..
 
 When you click "Copy", you'll be prompted to fill in these values, and they'll be automatically replaced!
 
-## 🚀 How to Use
+## 🚀 Quick Start
+
+### Option 1: Use Locally (No Setup)
 
 1. **Open `index.html`** in any modern browser
 2. **Click "✨ Add Snippet"** to create your first snippet
 3. **Use placeholders** like `[NAME]`, `[COMPANY]`, `[ROLE]` in your message
 4. **Click "📋 Copy"** on any snippet to fill in the details and copy to clipboard
 5. **Drag cards** to reorder them
-6. **Export your snippets** to back them up or share with others
+
+**Note:** Snippets are stored in your browser's localStorage (device-specific).
+
+### Option 2: Set Up Cloud Sync (Recommended)
+
+Get access to your snippets from **any device** with Firebase:
+
+1. Follow the **[Firebase Setup Guide](FIREBASE_SETUP.md)** (15 minutes)
+2. Sign in with Google
+3. Your snippets now sync across all devices! ✨
+
+**Benefits of Firebase:**
+- 🌍 Access from any device/browser
+- 🔄 Real-time sync
+- 🔐 Secure Google authentication
+- 📱 Works offline
+- 👥 Share with others (each user has private snippets)
 
 ## 💾 How Storage Works
 
-**Your snippets are stored in your browser's localStorage:**
-- ✅ **Persistent**: Survives page refreshes and browser restarts
-- ✅ **Private**: Stored locally on YOUR device only
-- ✅ **No server needed**: Works completely offline
-- ✅ **Works when deployed**: localStorage works on any website
-- ✅ **Per-browser**: Each browser has its own storage
+The app supports **two storage modes**:
 
-### Why localStorage?
-- No backend or database needed
-- Fast and instant
-- Privacy-focused (your data never leaves your device)
-- Free and unlimited for typical usage
+### 1. **localStorage Mode** (Default - No Setup)
+- ✅ Works immediately, no configuration needed
+- ✅ Fast and offline
+- ❌ Device/browser specific (can't access from other devices)
+- ❌ Lost if you clear browser data
 
-### Backup Your Data
+### 2. **Firebase Cloud Mode** (Recommended)
+- ✅ **Access from ANY device** (phone, laptop, work computer)
+- ✅ **Real-time sync** across all your devices
+- ✅ **Never lose data** - stored in the cloud
+- ✅ **Offline support** - works without internet, syncs when back online
+- ✅ **Secure** - Google authentication, private per user
+- 🔧 Requires 15-min setup ([See Setup Guide](FIREBASE_SETUP.md))
+
+### Backup Your Data (Both Modes)
 Use the **"📤 Export"** button to download your snippets as a JSON file:
-- Safe backup in case you clear browser data
-- Transfer snippets between computers/browsers
+- Safe backup in case of issues
+- Transfer snippets between accounts
 - Share snippet collections with teammates
 
 ## 🛠️ Technical Details

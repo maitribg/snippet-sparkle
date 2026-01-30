@@ -6,6 +6,8 @@ let editingSnippetId = null;
 let copyingSnippet = null;
 let isDarkMode = false;
 let sortableInstance = null;
+let currentUser = null;
+let unsubscribeSnapshot = null;
 
 // ===========================
 // DOM Elements
@@ -29,6 +31,11 @@ const themeIcon = document.getElementById('themeIcon');
 const exportBtn = document.getElementById('exportBtn');
 const importBtn = document.getElementById('importBtn');
 const importFile = document.getElementById('importFile');
+const authBtn = document.getElementById('authBtn');
+const authBtnText = document.getElementById('authBtnText');
+const userProfile = document.getElementById('userProfile');
+const userPhoto = document.getElementById('userPhoto');
+const userName = document.getElementById('userName');
 
 // ===========================
 // Initialize App
@@ -47,9 +54,21 @@ function init() {
         showToast('⚠️ Storage disabled - snippets won\'t persist!');
     }
     
-    loadSnippets();
+    // Initialize Firebase if configured
+    if (typeof initializeFirebase === 'function') {
+        initializeFirebase();
+    }
+    
+    // Set up auth state listener
+    if (isFirebaseConfigured && auth) {
+        auth.onAuthStateChanged(handleAuthStateChange);
+    } else {
+        console.log('📱 Running in localStorage-only mode');
+        loadSnippets();
+        renderSnippets();
+    }
+    
     loadTheme();
-    renderSnippets();
     initSortable();
     attachEventListeners();
     
@@ -109,6 +128,174 @@ function applyTheme() {
 }
 
 // ===========================
+// Firebase Authentication
+// ===========================
+function handleAuthStateChange(user) {
+    currentUser = user;
+    
+    if (user) {
+        // User is signed in
+        console.log('✅ User signed in:', user.email);
+        updateAuthUI(true);
+        
+        // Show user info
+        userName.textContent = user.displayName || user.email;
+        userPhoto.src = user.photoURL || 'https://via.placeholder.com/40';
+        
+        // Load snippets from Firestore
+        loadSnippetsFromFirestore();
+    } else {
+        // User is signed out
+        console.log('👋 User signed out');
+        updateAuthUI(false);
+        
+        // Unsubscribe from Firestore listener
+        if (unsubscribeSnapshot) {
+            unsubscribeSnapshot();
+            unsubscribeSnapshot = null;
+        }
+        
+        // Load from localStorage as fallback
+        loadSnippets();
+        renderSnippets();
+    }
+}
+
+function updateAuthUI(isSignedIn) {
+    if (isSignedIn) {
+        authBtnText.textContent = '🚪 Sign Out';
+        userProfile.classList.remove('hidden');
+        userProfile.classList.add('flex');
+    } else {
+        authBtnText.textContent = '🔐 Sign In';
+        userProfile.classList.add('hidden');
+        userProfile.classList.remove('flex');
+    }
+}
+
+async function handleAuth() {
+    if (!isFirebaseConfigured) {
+        showToast('⚠️ Firebase not configured. Using localStorage only.');
+        return;
+    }
+    
+    if (currentUser) {
+        // Sign out
+        try {
+            await auth.signOut();
+            showToast('👋 Signed out successfully!');
+        } catch (error) {
+            console.error('Sign out error:', error);
+            showToast('❌ Sign out failed!');
+        }
+    } else {
+        // Sign in with Google
+        const provider = new firebase.auth.GoogleAuthProvider();
+        try {
+            await auth.signInWithPopup(provider);
+            showToast('✨ Welcome! Your snippets will sync across devices!');
+        } catch (error) {
+            console.error('Sign in error:', error);
+            if (error.code === 'auth/popup-closed-by-user') {
+                showToast('⚠️ Sign in cancelled');
+            } else {
+                showToast('❌ Sign in failed!');
+            }
+        }
+    }
+}
+
+// ===========================
+// Firestore Operations
+// ===========================
+function loadSnippetsFromFirestore() {
+    if (!currentUser || !db) return;
+    
+    const snippetsRef = db.collection('users').doc(currentUser.uid).collection('snippets');
+    
+    // Real-time listener
+    unsubscribeSnapshot = snippetsRef.orderBy('order').onSnapshot((snapshot) => {
+        snippets = [];
+        snapshot.forEach((doc) => {
+            snippets.push({ id: doc.id, ...doc.data() });
+        });
+        
+        console.log('📥 Loaded', snippets.length, 'snippets from Firestore');
+        renderSnippets();
+        
+        // Backup to localStorage
+        saveSnippets();
+    }, (error) => {
+        console.error('Firestore error:', error);
+        showToast('⚠️ Sync error. Using local data.');
+        loadSnippets();
+        renderSnippets();
+    });
+}
+
+async function saveSnippetToFirestore(snippet) {
+    if (!currentUser || !db) {
+        return false;
+    }
+    
+    try {
+        const snippetsRef = db.collection('users').doc(currentUser.uid).collection('snippets');
+        
+        if (snippet.id) {
+            // Update existing
+            await snippetsRef.doc(snippet.id).set(snippet, { merge: true });
+        } else {
+            // Create new
+            const docRef = await snippetsRef.add(snippet);
+            snippet.id = docRef.id;
+        }
+        
+        console.log('💾 Saved to Firestore:', snippet.id);
+        return true;
+    } catch (error) {
+        console.error('Firestore save error:', error);
+        showToast('⚠️ Cloud sync failed. Saved locally.');
+        return false;
+    }
+}
+
+async function deleteSnippetFromFirestore(snippetId) {
+    if (!currentUser || !db) {
+        return false;
+    }
+    
+    try {
+        await db.collection('users').doc(currentUser.uid).collection('snippets').doc(snippetId).delete();
+        console.log('🗑️ Deleted from Firestore:', snippetId);
+        return true;
+    } catch (error) {
+        console.error('Firestore delete error:', error);
+        return false;
+    }
+}
+
+async function updateSnippetOrderInFirestore() {
+    if (!currentUser || !db) {
+        return;
+    }
+    
+    try {
+        const batch = db.batch();
+        const snippetsRef = db.collection('users').doc(currentUser.uid).collection('snippets');
+        
+        snippets.forEach((snippet, index) => {
+            const docRef = snippetsRef.doc(snippet.id);
+            batch.update(docRef, { order: index });
+        });
+        
+        await batch.commit();
+        console.log('✨ Updated snippet order in Firestore');
+    } catch (error) {
+        console.error('Firestore order update error:', error);
+    }
+}
+
+// ===========================
 // Event Listeners
 // ===========================
 function attachEventListeners() {
@@ -140,6 +327,9 @@ function attachEventListeners() {
     
     // Theme toggle
     themeToggle.addEventListener('click', toggleTheme);
+    
+    // Auth button
+    authBtn.addEventListener('click', handleAuth);
     
     // Import/Export
     exportBtn.addEventListener('click', exportSnippets);
@@ -226,7 +416,7 @@ function closeCopyModalFn() {
 // ===========================
 // CRUD Operations
 // ===========================
-function handleSnippetSubmit(e) {
+async function handleSnippetSubmit(e) {
     e.preventDefault();
     
     const title = document.getElementById('snippetTitle').value.trim();
@@ -241,6 +431,11 @@ function handleSnippetSubmit(e) {
             snippet.title = title;
             snippet.message = message;
             snippet.updatedAt = new Date().toISOString();
+            
+            // Save to Firestore if logged in
+            if (currentUser) {
+                await saveSnippetToFirestore(snippet);
+            }
         }
         showToast('✨ Snippet updated!');
     } else {
@@ -249,23 +444,45 @@ function handleSnippetSubmit(e) {
             id: generateId(),
             title,
             message,
+            order: snippets.length,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
         };
-        snippets.push(newSnippet);
+        
+        // Save to Firestore if logged in
+        if (currentUser) {
+            await saveSnippetToFirestore(newSnippet);
+        } else {
+            // Add locally if not logged in
+            snippets.push(newSnippet);
+        }
+        
         showToast('✨ Snippet created!');
     }
     
+    // Save to localStorage as backup
     saveSnippets();
-    renderSnippets();
+    
+    // Re-render if not using real-time listener
+    if (!currentUser) {
+        renderSnippets();
+    }
+    
     closeSnippetModal();
 }
 
-function deleteSnippet(id) {
+async function deleteSnippet(id) {
     if (confirm('Are you sure you want to delete this snippet? 🗑️')) {
-        snippets = snippets.filter(s => s.id !== id);
-        saveSnippets();
-        renderSnippets();
+        // Delete from Firestore if logged in
+        if (currentUser) {
+            await deleteSnippetFromFirestore(id);
+        } else {
+            // Delete locally if not logged in
+            snippets = snippets.filter(s => s.id !== id);
+            saveSnippets();
+            renderSnippets();
+        }
+        
         showToast('🗑️ Snippet deleted!');
     }
 }
@@ -342,10 +559,17 @@ function initSortable() {
     sortableInstance = Sortable.create(snippetsContainer, {
         animation: 150,
         ghostClass: 'sortable-ghost',
-        onEnd: function(evt) {
+        onEnd: async function(evt) {
             // Reorder snippets array
             const movedSnippet = snippets.splice(evt.oldIndex, 1)[0];
             snippets.splice(evt.newIndex, 0, movedSnippet);
+            
+            // Update order in Firestore if logged in
+            if (currentUser) {
+                await updateSnippetOrderInFirestore();
+            }
+            
+            // Always save to localStorage as backup
             saveSnippets();
             showToast('✨ Order saved!');
         }

@@ -16,6 +16,11 @@
     <!-- Sortable.js for drag and drop -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -23,27 +28,41 @@
     
     <!-- Sticky Navigation Bar -->
     <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <h1 class="font-pacifico text-3xl sm:text-4xl text-gradient">💖 Snippet Sparkle</h1>
-            <div class="flex gap-3">
-                <!-- Theme Toggle -->
-                <button id="themeToggle" class="btn-secondary px-4 py-2 rounded-full" title="Toggle theme">
-                    <span id="themeIcon">🌙</span>
-                </button>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex justify-between items-center flex-wrap gap-3">
+                <h1 class="font-pacifico text-3xl sm:text-4xl text-gradient">💖 Snippet Sparkle</h1>
                 
-                <!-- Import/Export -->
-                <button id="exportBtn" class="btn-secondary px-4 py-2 rounded-full" title="Export snippets">
-                    📤 Export
-                </button>
-                <button id="importBtn" class="btn-secondary px-4 py-2 rounded-full" title="Import snippets">
-                    📥 Import
-                </button>
-                <input type="file" id="importFile" accept=".json" class="hidden">
-                
-                <!-- Add Snippet Button -->
-                <button id="addSnippetBtn" class="btn-primary px-6 py-2 rounded-full shadow-glow">
-                    ✨ Add Snippet
-                </button>
+                <div class="flex gap-3 items-center">
+                    <!-- User Profile (hidden until logged in) -->
+                    <div id="userProfile" class="hidden items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/30 dark:to-purple-900/30">
+                        <img id="userPhoto" src="" alt="User" class="w-8 h-8 rounded-full">
+                        <span id="userName" class="font-semibold text-sm"></span>
+                    </div>
+                    
+                    <!-- Auth Button -->
+                    <button id="authBtn" class="btn-secondary px-4 py-2 rounded-full" title="Sign in with Google">
+                        <span id="authBtnText">🔐 Sign In</span>
+                    </button>
+                    
+                    <!-- Theme Toggle -->
+                    <button id="themeToggle" class="btn-secondary px-4 py-2 rounded-full" title="Toggle theme">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                    
+                    <!-- Import/Export -->
+                    <button id="exportBtn" class="btn-secondary px-4 py-2 rounded-full" title="Export snippets">
+                        📤
+                    </button>
+                    <button id="importBtn" class="btn-secondary px-4 py-2 rounded-full" title="Import snippets">
+                        📥
+                    </button>
+                    <input type="file" id="importFile" accept=".json" class="hidden">
+                    
+                    <!-- Add Snippet Button -->
+                    <button id="addSnippetBtn" class="btn-primary px-6 py-2 rounded-full shadow-glow">
+                        ✨ Add Snippet
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -181,6 +200,9 @@
     <div id="toast" class="toast hidden">
         <span id="toastMessage">✨ Snippet copied!</span>
     </div>
+    
+    <!-- Firebase Configuration -->
+    <script src="firebase-config.js"></script>
     
     <!-- Custom Script -->
     <script src="script.js"></script>
