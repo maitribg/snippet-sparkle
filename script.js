@@ -38,9 +38,44 @@ const userPhoto = document.getElementById('userPhoto');
 const userName = document.getElementById('userName');
 
 // ===========================
+// Auto-load Sample Data
+// ===========================
+async function loadSampleData() {
+    try {
+        console.log('📦 Loading sample data...');
+        const response = await fetch('snippets-data.json');
+        
+        if (!response.ok) {
+            console.warn('⚠️ Sample data file not found');
+            return;
+        }
+        
+        const data = await response.json();
+        
+        // Support both formats
+        let sampleSnippets = [];
+        if (Array.isArray(data)) {
+            sampleSnippets = data;
+        } else if (data && Array.isArray(data.snippets)) {
+            sampleSnippets = data.snippets;
+        }
+        
+        if (sampleSnippets.length > 0) {
+            snippets = sampleSnippets;
+            saveSnippets();
+            console.log(`✅ Loaded ${sampleSnippets.length} sample snippets!`);
+            showToast(`✨ Welcome! Loaded ${sampleSnippets.length} sample snippets!`);
+        }
+    } catch (err) {
+        console.warn('⚠️ Could not load sample data:', err);
+        // Fail silently - user can add their own snippets
+    }
+}
+
+// ===========================
 // Initialize App
 // ===========================
-function init() {
+async function init() {
     console.log('🌟 Snippet Sparkle initializing...');
     
     // Test localStorage availability
@@ -64,7 +99,15 @@ function init() {
         auth.onAuthStateChanged(handleAuthStateChange);
     } else {
         console.log('📱 Running in localStorage-only mode');
+        
+        // Load snippets from localStorage
         loadSnippets();
+        
+        // Auto-load sample data on first visit
+        if (snippets.length === 0) {
+            await loadSampleData();
+        }
+        
         renderSnippets();
     }
     
@@ -610,22 +653,31 @@ function exportSnippets() {
     showToast('📤 Snippets exported!');
 }
 
-function importSnippets(e) {
+async function importSnippets(e) {
     const file = e.target.files[0];
     if (!file) return;
     
     const reader = new FileReader();
-    reader.onload = function(event) {
+    reader.onload = async function(event) {
         try {
             const imported = JSON.parse(event.target.result);
             
-            if (!Array.isArray(imported)) {
+            // Support multiple formats:
+            // 1. Direct array: [{ id, title, message }, ...]
+            // 2. Object with snippets property: { snippets: [...] }
+            let importedSnippets = [];
+            
+            if (Array.isArray(imported)) {
+                importedSnippets = imported;
+            } else if (imported && Array.isArray(imported.snippets)) {
+                importedSnippets = imported.snippets;
+            } else {
                 showToast('⚠️ Invalid file format!');
                 return;
             }
             
-            // Validate and merge
-            const validSnippets = imported.filter(s => 
+            // Validate snippets
+            const validSnippets = importedSnippets.filter(s => 
                 s.id && s.title && s.message
             );
             
@@ -638,13 +690,33 @@ function importSnippets(e) {
             const existingIds = new Set(snippets.map(s => s.id));
             const newSnippets = validSnippets.filter(s => !existingIds.has(s.id));
             
+            if (newSnippets.length === 0) {
+                showToast('⚠️ All snippets already exist!');
+                return;
+            }
+            
+            // Add new snippets
             snippets = [...snippets, ...newSnippets];
+            
+            // Save to localStorage immediately
             saveSnippets();
-            renderSnippets();
-            showToast(`📥 Imported ${newSnippets.length} snippets!`);
+            
+            // If using Firebase, also save there
+            if (currentUser && db) {
+                for (const snippet of newSnippets) {
+                    await saveSnippetToFirestore(snippet);
+                }
+            }
+            
+            // Re-render only if not using real-time listener
+            if (!currentUser) {
+                renderSnippets();
+            }
+            
+            showToast(`✨ Imported ${newSnippets.length} new snippet${newSnippets.length > 1 ? 's' : ''}!`);
         } catch (err) {
             console.error('Import error:', err);
-            showToast('⚠️ Failed to import file!');
+            showToast('❌ Failed to import file! Check the format.');
         }
     };
     reader.readAsText(file);

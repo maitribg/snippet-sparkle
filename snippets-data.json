@@ -1,0 +1,32 @@
+{
+  "snippets": [
+    {
+      "id": "sample1",
+      "title": "LinkedIn Connection Request",
+      "message": "Hi [NAME], I noticed your impressive work as a [ROLE] at [COMPANY]. I'd love to connect and learn more about your experience in the field!",
+      "order": 0,
+      "createdAt": "2026-01-30T00:00:00.000Z",
+      "updatedAt": "2026-01-30T00:00:00.000Z"
+    },
+    {
+      "id": "sample2",
+      "title": "Cold Email - Job Inquiry",
+      "message": "Dear [NAME],\n\nI hope this email finds you well. I came across [COMPANY] and was incredibly impressed by your team's work in the industry.\n\nI'm reaching out because I'm passionate about [ROLE] positions and would love to explore opportunities to contribute to your team.\n\nWould you be open to a brief conversation?\n\nBest regards",
+      "order": 1,
+      "createdAt": "2026-01-30T00:00:00.000Z",
+      "updatedAt": "2026-01-30T00:00:00.000Z"
+    },
+    {
+      "id": "sample3",
+      "title": "Follow-up Message",
+      "message": "Hi [NAME],\n\nI wanted to follow up on my previous message about potential opportunities at [COMPANY] for the [ROLE] position.\n\nI'd love to discuss how my skills and experience could add value to your team.\n\nLooking forward to hearing from you!",
+      "order": 2,
+      "createdAt": "2026-01-30T00:00:00.000Z",
+      "updatedAt": "2026-01-30T00:00:00.000Z"
+    }
+  ],
+  "theme": "light",
+  "lastUpdated": "2026-01-30T00:00:00.000Z",
+  "version": "1.0.0",
+  "info": "This is a local JSON storage file for Snippet Sparkle. The app uses localStorage by default, but you can import/export snippets using this format."
+}
