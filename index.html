@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 Snippet Sparkle</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Sortable.js for drag and drop -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen transition-colors duration-300">
+    
+    <!-- Sticky Navigation Bar -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="font-pacifico text-3xl sm:text-4xl text-gradient">💖 Snippet Sparkle</h1>
+            <div class="flex gap-3">
+                <!-- Theme Toggle -->
+                <button id="themeToggle" class="btn-secondary px-4 py-2 rounded-full" title="Toggle theme">
+                    <span id="themeIcon">🌙</span>
+                </button>
+                
+                <!-- Import/Export -->
+                <button id="exportBtn" class="btn-secondary px-4 py-2 rounded-full" title="Export snippets">
+                    📤 Export
+                </button>
+                <button id="importBtn" class="btn-secondary px-4 py-2 rounded-full" title="Import snippets">
+                    📥 Import
+                </button>
+                <input type="file" id="importFile" accept=".json" class="hidden">
+                
+                <!-- Add Snippet Button -->
+                <button id="addSnippetBtn" class="btn-primary px-6 py-2 rounded-full shadow-glow">
+                    ✨ Add Snippet
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-20 hidden">
+            <div class="text-6xl mb-4">✨</div>
+            <h2 class="font-quicksand text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No snippets yet!</h2>
+            <p class="text-gray-500 dark:text-gray-400 mb-6">Create your first snippet to get started</p>
+            <button class="btn-primary px-8 py-3 rounded-full shadow-glow add-snippet-trigger">
+                ✨ Create First Snippet
+            </button>
+        </div>
+        
+        <!-- Snippets Grid -->
+        <div id="snippetsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Snippet cards will be dynamically inserted here -->
+        </div>
+    </main>
+    
+    <!-- Modal for Add/Edit Snippet -->
+    <div id="snippetModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-pacifico text-3xl text-gradient" id="modalTitle">Add Snippet</h2>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-3xl leading-none">
+                    ×
+                </button>
+            </div>
+            
+            <form id="snippetForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2" for="snippetTitle">
+                        Title
+                    </label>
+                    <input 
+                        type="text" 
+                        id="snippetTitle" 
+                        class="input-field" 
+                        placeholder="e.g., LinkedIn DM, Cold Email..."
+                        required
+                    >
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2" for="snippetMessage">
+                        Message Template
+                    </label>
+                    <textarea 
+                        id="snippetMessage" 
+                        rows="8" 
+                        class="input-field" 
+                        placeholder="Hi [NAME], I saw you're a [ROLE] at [COMPANY]..."
+                        required
+                    ></textarea>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        💡 Use [NAME], [COMPANY], and [ROLE] as placeholders
+                    </p>
+                </div>
+                
+                <div class="flex gap-3">
+                    <button type="submit" class="btn-primary flex-1 py-3 rounded-2xl">
+                        💾 Save Snippet
+                    </button>
+                    <button type="button" id="cancelModal" class="btn-secondary flex-1 py-3 rounded-2xl">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal for Copy with Placeholder Replacement -->
+    <div id="copyModal" class="modal-overlay hidden">
+        <div class="modal-content max-w-md">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-pacifico text-2xl text-gradient">Fill Details</h2>
+                <button id="closeCopyModal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-3xl leading-none">
+                    ×
+                </button>
+            </div>
+            
+            <form id="copyForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2" for="copyName">
+                        Name <span class="text-gray-400 text-sm">(optional)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="copyName" 
+                        class="input-field" 
+                        placeholder="Recipient's name"
+                    >
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2" for="copyCompany">
+                        Company <span class="text-gray-400 text-sm">(optional)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="copyCompany" 
+                        class="input-field" 
+                        placeholder="Company name"
+                    >
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2" for="copyRole">
+                        Role <span class="text-gray-400 text-sm">(optional)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="copyRole" 
+                        class="input-field" 
+                        placeholder="e.g., Software Engineer, Product Manager"
+                    >
+                </div>
+                
+                <div class="flex gap-3">
+                    <button type="submit" class="btn-primary flex-1 py-3 rounded-2xl">
+                        📋 Copy to Clipboard
+                    </button>
+                    <button type="button" id="cancelCopyModal" class="btn-secondary flex-1 py-3 rounded-2xl">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden">
+        <span id="toastMessage">✨ Snippet copied!</span>
+    </div>
+    
+    <!-- Custom Script -->
+    <script src="script.js"></script>
+</body>
+</html>
