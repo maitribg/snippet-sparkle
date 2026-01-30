@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 Documentation - Snippet Sparkle</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen transition-colors duration-300">
+    
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="font-pacifico text-3xl sm:text-4xl text-gradient leading-relaxed py-1">📖 Documentation</h1>
+                <a href="index.html" class="btn-primary px-6 py-2 rounded-full shadow-glow">
+                    ← Back to App
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Introduction -->
+        <section class="card mb-8">
+            <h2 class="text-3xl font-bold text-gradient mb-4">✨ Welcome to Snippet Sparkle!</h2>
+            <p class="text-gray-700 dark:text-gray-300 text-lg mb-4">
+                Snippet Sparkle is a beautiful, easy-to-use tool for managing message templates with smart placeholders. 
+                Perfect for job seekers, recruiters, sales professionals, or anyone who sends similar messages frequently!
+            </p>
+            <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
+                <p class="text-purple-800 dark:text-purple-200">
+                    💡 <strong>Quick Tip:</strong> Your snippets are saved in your browser's localStorage. 
+                    For backup or to use on multiple devices, use the Export/Import feature!
+                </p>
+            </div>
+        </section>
+
+        <!-- Getting Started -->
+        <section class="card mb-8">
+            <h2 class="text-2xl font-bold text-gradient mb-4">🚀 Getting Started</h2>
+            
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">1️⃣ Create Your First Snippet</h3>
+                    <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
+                        <li>Click the <span class="font-semibold">✨ Add Snippet</span> button</li>
+                        <li>Enter a descriptive title (e.g., "LinkedIn Connection Request")</li>
+                        <li>Write your message template using placeholders</li>
+                        <li>Click <span class="font-semibold">💾 Save Snippet</span></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">2️⃣ Use Smart Placeholders</h3>
+                    <p class="text-gray-700 dark:text-gray-300 mb-3">
+                        Add these placeholders in your message template:
+                    </p>
+                    <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg space-y-2">
+                        <p class="font-mono text-sm"><span class="text-pink-600 dark:text-pink-400 font-bold">[NAME]</span> → Recipient's name</p>
+                        <p class="font-mono text-sm"><span class="text-pink-600 dark:text-pink-400 font-bold">[COMPANY]</span> → Company name</p>
+                        <p class="font-mono text-sm"><span class="text-pink-600 dark:text-pink-400 font-bold">[ROLE]</span> → Job title or role</p>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-3 italic">
+                        Example: "Hi [NAME], I saw you're a [ROLE] at [COMPANY]..."
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">3️⃣ Copy and Use</h3>
+                    <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
+                        <li>Click <span class="font-semibold">📋 Copy</span> on any snippet card</li>
+                        <li>Fill in the placeholder values (optional)</li>
+                        <li>Click <span class="font-semibold">📋 Copy to Clipboard</span></li>
+                        <li>Paste anywhere you need!</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="card mb-8">
+            <h2 class="text-2xl font-bold text-gradient mb-4">🎨 Features</h2>
+            
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 p-4 rounded-lg">
+                    <h3 class="font-semibold text-lg mb-2">✏️ Edit & Delete</h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                        Easily update or remove snippets anytime with the Edit and Delete buttons.
+                    </p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 p-4 rounded-lg">
+                    <h3 class="font-semibold text-lg mb-2">🎯 Drag & Drop</h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                        Reorder your snippets by dragging and dropping them into your preferred order.
+                    </p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 p-4 rounded-lg">
+                    <h3 class="font-semibold text-lg mb-2">🌙 Dark Mode</h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                        Toggle between light and dark themes with the moon/sun button.
+                    </p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 p-4 rounded-lg">
+                    <h3 class="font-semibold text-lg mb-2">💾 Auto-Save</h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                        All changes are automatically saved to your browser's localStorage.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Import/Export -->
+        <section class="card mb-8 border-2 border-purple-300 dark:border-purple-700">
+            <h2 class="text-2xl font-bold text-gradient mb-4">💾 Export & Import (Important!)</h2>
+            
+            <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-300 dark:border-yellow-700 mb-6">
+                <p class="text-yellow-900 dark:text-yellow-200 font-semibold mb-2">
+                    ⚠️ Your Data is Stored Locally
+                </p>
+                <p class="text-yellow-800 dark:text-yellow-300 text-sm">
+                    Snippets are saved in your browser's localStorage. This means each browser/device has its own separate data. 
+                    To backup or transfer snippets, use the Export/Import feature!
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">📤 Export Your Snippets</h3>
+                    <ol class="list-decimal list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
+                        <li>Click the <span class="font-semibold">📤</span> button in the navigation bar</li>
+                        <li>A JSON file will be downloaded (e.g., <code class="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded text-sm">snippet-sparkle-1706649600000.json</code>)</li>
+                        <li>Save this file somewhere safe (Desktop, Google Drive, Dropbox, etc.)</li>
+                    </ol>
+                    
+                    <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg mt-4 border border-green-200 dark:border-green-800">
+                        <p class="text-green-800 dark:text-green-200 text-sm">
+                            💡 <strong>Pro Tip:</strong> Export regularly as a backup! Especially before clearing browser data or switching devices.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3">📥 Import Snippets</h3>
+                    <ol class="list-decimal list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
+                        <li>Click the <span class="font-semibold">📥</span> button in the navigation bar</li>
+                        <li>Select your previously exported JSON file</li>
+                        <li>Snippets will be imported and merged with existing ones (no duplicates)</li>
+                        <li>You'll see a confirmation message</li>
+                    </ol>
+                    
+                    <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg mt-4 border border-blue-200 dark:border-blue-800">
+                        <p class="text-blue-800 dark:text-blue-200 text-sm">
+                            📱 <strong>Use on Multiple Devices:</strong> Export from Computer A → Import on Computer B. Simple as that!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section class="card mb-8">
+            <h2 class="text-2xl font-bold text-gradient mb-4">💼 Use Cases</h2>
+            
+            <div class="space-y-4">
+                <div class="border-l-4 border-pink-500 pl-4">
+                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">🎯 Job Seekers</h3>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">
+                        Create templates for LinkedIn messages, cold emails to recruiters, follow-up messages, and networking outreach.
+                    </p>
+                </div>
+                
+                <div class="border-l-4 border-purple-500 pl-4">
+                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">💼 Recruiters</h3>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">
+                        Manage candidate outreach templates, interview invitations, rejection emails, and follow-up messages.
+                    </p>
+                </div>
+                
+                <div class="border-l-4 border-pink-500 pl-4">
+                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">💰 Sales & Marketing</h3>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">
+                        Store cold outreach templates, follow-up sequences, meeting requests, and proposal introductions.
+                    </p>
+                </div>
+                
+                <div class="border-l-4 border-purple-500 pl-4">
+                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">🤝 Customer Support</h3>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">
+                        Quick responses to common questions, ticket updates, greeting messages, and resolution templates.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tips & Tricks -->
+        <section class="card mb-8">
+            <h2 class="text-2xl font-bold text-gradient mb-4">💡 Tips & Best Practices</h2>
+            
+            <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                <li class="flex items-start">
+                    <span class="text-2xl mr-3">📝</span>
+                    <div>
+                        <strong>Write Clear Titles:</strong> Use descriptive names like "LinkedIn DM - Software Role" instead of just "DM".
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-2xl mr-3">🎯</span>
+                    <div>
+                        <strong>Keep it Organized:</strong> Drag and drop to group similar snippets together (e.g., all LinkedIn messages at the top).
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-2xl mr-3">💾</span>
+                    <div>
+                        <strong>Export Regularly:</strong> At the end of each session, export your snippets as a backup. Store the file in cloud storage for easy access.
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-2xl mr-3">✨</span>
+                    <div>
+                        <strong>Review and Update:</strong> Periodically review your snippets and update ones that aren't working well.
+                    </div>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-2xl mr-3">🔄</span>
+                    <div>
+                        <strong>Multiple Versions:</strong> Create A/B variations of important messages to test what works best.
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Workflow Example -->
+        <section class="card mb-8 bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20">
+            <h2 class="text-2xl font-bold text-gradient mb-4">🔄 Recommended Workflow</h2>
+            
+            <div class="space-y-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                    <p class="text-gray-700 dark:text-gray-300">Create and refine your snippets on your main device</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                    <p class="text-gray-700 dark:text-gray-300">At the end of your session, click <strong>📤 Export</strong></p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                    <p class="text-gray-700 dark:text-gray-300">Save the JSON file to cloud storage (Google Drive, Dropbox, etc.)</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">4</div>
+                    <p class="text-gray-700 dark:text-gray-300">On another device? Download the file and click <strong>📥 Import</strong></p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">5</div>
+                    <p class="text-gray-700 dark:text-gray-300">Keep the latest exported file as your "master backup"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="card mb-8">
+            <h2 class="text-2xl font-bold text-gradient mb-4">❓ Frequently Asked Questions</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200 mb-2">Where are my snippets stored?</h3>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">
+                        In your browser's localStorage. Each browser/device has its own separate storage.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200 mb-2">Will my snippets sync across devices?</h3>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">
+                        No, not automatically. Use Export/Import to transfer snippets between devices.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200 mb-2">What if I clear my browser data?</h3>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">
+                        Your snippets will be lost! Always export as a backup before clearing browser data.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200 mb-2">Can multiple people share snippets?</h3>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">
+                        Yes! Export your snippets and share the JSON file with your team. They can import it into their browser.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200 mb-2">Is there a limit to how many snippets I can create?</h3>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm">
+                        localStorage limits vary by browser (usually 5-10MB). You can easily store hundreds of snippets.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <div class="text-center py-8">
+            <a href="index.html" class="btn-primary px-8 py-3 rounded-full shadow-glow inline-block">
+                ✨ Start Using Snippet Sparkle
+            </a>
+            <p class="text-gray-500 dark:text-gray-400 mt-4 text-sm">
+                Made with 💖 • No sign-up required • 100% free
+            </p>
+        </div>
+    </main>
+
+</body>
+</html>

@@ -30,7 +30,7 @@
     <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex justify-between items-center flex-wrap gap-3">
-                <h1 class="font-pacifico text-3xl sm:text-4xl text-gradient">💖 Snippet Sparkle</h1>
+                <h1 class="font-pacifico text-3xl sm:text-4xl text-gradient leading-relaxed py-1">💖 Snippet Sparkle</h1>
                 
                 <div class="flex gap-3 items-center">
                     <!-- User Profile (hidden until logged in) -->
@@ -43,6 +43,11 @@
                     <button id="authBtn" class="btn-secondary px-4 py-2 rounded-full" title="Sign in with Google">
                         <span id="authBtnText">🔐 Sign In</span>
                     </button>
+                    
+                    <!-- Documentation Link -->
+                    <a href="docs.html" class="btn-secondary px-4 py-2 rounded-full" title="How to use">
+                        📖 Help
+                    </a>
                     
                     <!-- Theme Toggle -->
                     <button id="themeToggle" class="btn-secondary px-4 py-2 rounded-full" title="Toggle theme">
@@ -77,6 +82,9 @@
             <button class="btn-primary px-8 py-3 rounded-full shadow-glow add-snippet-trigger">
                 ✨ Create First Snippet
             </button>
+            <p class="text-gray-400 dark:text-gray-500 text-sm mt-4">
+                New here? Check out the <a href="docs.html" class="text-purple-600 dark:text-purple-400 hover:underline">📖 Documentation</a> to learn how to use Snippet Sparkle
+            </p>
         </div>
         
         <!-- Snippets Grid -->
@@ -89,7 +97,7 @@
     <div id="snippetModal" class="modal-overlay hidden">
         <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="font-pacifico text-3xl text-gradient" id="modalTitle">Add Snippet</h2>
+                <h2 class="font-pacifico text-3xl text-gradient leading-relaxed py-1" id="modalTitle">Add Snippet</h2>
                 <button id="closeModal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-3xl leading-none">
                     ×
                 </button>
@@ -141,7 +149,7 @@
     <div id="copyModal" class="modal-overlay hidden">
         <div class="modal-content max-w-md">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="font-pacifico text-2xl text-gradient">Fill Details</h2>
+                <h2 class="font-pacifico text-2xl text-gradient leading-relaxed py-1">Fill Details</h2>
                 <button id="closeCopyModal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-3xl leading-none">
                     ×
                 </button>

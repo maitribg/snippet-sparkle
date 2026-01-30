@@ -46,6 +46,9 @@ body.dark-mode {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    display: inline-block;
+    padding-bottom: 0.15em;
+    overflow: visible;
 }
 
 /* ===========================
